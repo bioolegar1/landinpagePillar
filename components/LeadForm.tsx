@@ -30,16 +30,19 @@ export default function LeadForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Guarda a referência do form antes do await — depois de um await,
+    // event.currentTarget já volta a ser null (só é válido de forma síncrona).
+    const formEl = event.currentTarget;
     setStatus("submitting");
     setErrorMessage("");
 
-    const form = new FormData(event.currentTarget);
+    const formData = new FormData(formEl);
     const payload = {
-      nome: String(form.get("nome") ?? ""),
-      empresa: String(form.get("empresa") ?? ""),
-      whatsapp: String(form.get("whatsapp") ?? ""),
-      horario: String(form.get("horario") ?? ""),
-      newsletter: form.get("newsletter") === "on",
+      nome: String(formData.get("nome") ?? ""),
+      empresa: String(formData.get("empresa") ?? ""),
+      whatsapp: String(formData.get("whatsapp") ?? ""),
+      horario: String(formData.get("horario") ?? ""),
+      newsletter: formData.get("newsletter") === "on",
     };
 
     try {
@@ -55,7 +58,7 @@ export default function LeadForm() {
       }
 
       setStatus("success");
-      event.currentTarget.reset();
+      formEl.reset();
     } catch (error) {
       setStatus("error");
       setErrorMessage(
