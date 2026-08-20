@@ -7,12 +7,22 @@ const HORARIO_LABEL: Record<string, string> = {
   qualquer: "Qualquer horário",
 };
 
+// Mesmo padrão aplicado na máscara do formulário: +55 (DD) 9XXXX-XXXX
+const WHATSAPP_PATTERN = /^\+55 \(\d{2}\) \d{5}-\d{4}$/;
+
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
 
   if (!body || typeof body.nome !== "string" || !body.nome.trim() || typeof body.whatsapp !== "string" || !body.whatsapp.trim()) {
     return NextResponse.json(
       { ok: false, error: "Informe ao menos nome e WhatsApp." },
+      { status: 400 }
+    );
+  }
+
+  if (!WHATSAPP_PATTERN.test(body.whatsapp.trim())) {
+    return NextResponse.json(
+      { ok: false, error: "WhatsApp inválido. Use o formato +55 (DD) 99999-9999." },
       { status: 400 }
     );
   }

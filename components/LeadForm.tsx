@@ -1,14 +1,32 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { MessageCircle, CheckCircle2 } from "lucide-react";
 import { buildWhatsappLink, WHATSAPP_MESSAGE_DEMO } from "@/lib/site-data";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+// Padrão BR completo: +55 (DD) 9XXXX-XXXX — DDD com 2 dígitos, celular com o nono dígito.
+const WHATSAPP_PATTERN = /^\+55 \(\d{2}\) \d{5}-\d{4}$/;
+
+function formatWhatsapp(raw: string): string {
+  const digits = raw.replace(/\D/g, "").replace(/^55/, "").slice(0, 11);
+
+  let formatted = "+55";
+  if (digits.length > 0) formatted += ` (${digits.slice(0, 2)}`;
+  if (digits.length >= 2) formatted += ")";
+  if (digits.length > 2) formatted += ` ${digits.slice(2, 7)}`;
+  if (digits.length > 7) formatted += `-${digits.slice(7, 11)}`;
+  return formatted;
+}
+
 export default function LeadForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  function handleWhatsappChange(event: ChangeEvent<HTMLInputElement>) {
+    event.target.value = formatWhatsapp(event.target.value);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -105,9 +123,15 @@ export default function LeadForm() {
           id="whatsapp"
           name="whatsapp"
           type="tel"
+          inputMode="numeric"
           required
+          defaultValue="+55 "
+          onChange={handleWhatsappChange}
+          pattern={WHATSAPP_PATTERN.source}
+          title="Use o formato +55 (DD) 99999-9999"
+          maxLength={19}
           className="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100"
-          placeholder="(62) 90000-0000"
+          placeholder="+55 (62) 99999-9999"
         />
       </div>
 
