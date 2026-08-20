@@ -219,13 +219,12 @@ export const FAQS: FaqItem[] = [
 ];
 
 export type SocialProofItem =
-  | { icon: "trending-up" | "building-2" | "headset"; kind: "count"; target: number; suffix: string; label: string }
+  | { icon: "trending-up" | "headset"; kind: "count"; target: number; suffix: string; label: string }
   | { icon: "map-pin"; kind: "static"; value: string; label: string };
 
 // Placeholders de prova social — SUBSTITUIR por números reais antes de publicar a página.
 export const SOCIAL_PROOF: SocialProofItem[] = [
   { icon: "trending-up", kind: "count", target: 20, suffix: "+", label: "anos de mercado" }, // TODO: confirmar tempo real de mercado da Inforplace
-  { icon: "building-2", kind: "count", target: 500, suffix: "+", label: "empresas atendidas" }, // TODO: confirmar número real de clientes
   { icon: "headset", kind: "count", target: 100, suffix: "%", label: "atendimento humano, sem robô" },
   { icon: "map-pin", kind: "static", value: "GO", label: "sede em Goiânia, atendimento nacional" },
 ];

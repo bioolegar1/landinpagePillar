@@ -1,11 +1,10 @@
-import { TrendingUp, Building2, Headset, MapPin, type LucideIcon } from "lucide-react";
+import { TrendingUp, Headset, MapPin, type LucideIcon } from "lucide-react";
 import { SOCIAL_PROOF } from "@/lib/site-data";
 import Reveal from "./Reveal";
 import CountUp from "./CountUp";
 
 const ICONS: Record<(typeof SOCIAL_PROOF)[number]["icon"], LucideIcon> = {
   "trending-up": TrendingUp,
-  "building-2": Building2,
   headset: Headset,
   "map-pin": MapPin,
 };
@@ -14,7 +13,7 @@ const ICONS: Record<(typeof SOCIAL_PROOF)[number]["icon"], LucideIcon> = {
 export default function SocialProof() {
   return (
     <section className="relative z-10 -mt-10 px-4 sm:-mt-14 sm:px-6">
-      <Reveal className="mx-auto grid max-w-6xl grid-cols-2 gap-4 rounded-lg border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 sm:grid-cols-4 sm:p-8">
+      <Reveal className="mx-auto grid max-w-3xl grid-cols-1 gap-6 rounded-lg border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 sm:grid-cols-3 sm:p-8">
         {SOCIAL_PROOF.map((item) => {
           const Icon = ICONS[item.icon];
           return (
